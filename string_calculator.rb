@@ -16,6 +16,7 @@ class StringCalculator
       numbers_array = get_numbers_list(delimiter, numbers_string)
 
       check_for_negative_numbers(numbers_array)
+      numbers_array.reject { |number| number > 1000 }
     end
 
     def get_delimiter_and_numbers(numbers_string)
