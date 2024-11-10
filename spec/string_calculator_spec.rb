@@ -37,8 +37,7 @@ RSpec.describe StringCalculator do
       expect(calculator.add('2, 1001')).to eq(2) 
     end
 
-
-    it "doesn't ignores numbers equal to or under 1000" do
+    it "doesn't ignore numbers equal to or less than 1000" do
       expect(calculator.add('2, 1000')).to eq(1002) 
     end
   end
