@@ -20,5 +20,9 @@ RSpec.describe StringCalculator do
     it 'returns the sum of two or more numbers' do
       expect(calculator.add('1,2,3,4,5,6,7,8,9,10')).to eq(55)
     end
+
+    it 'returns the sum of numbers when string has newline characters as delimiter' do
+      expect(calculator.add('1,2,3,4\n5,6,7\n8,9,10')).to eq(55)
+    end
   end
 end
