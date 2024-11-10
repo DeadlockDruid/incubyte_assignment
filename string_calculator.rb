@@ -11,6 +11,13 @@ class StringCalculator
 
     numbers_string = numbers_string.gsub(delimiter, ',').gsub('\n', ',')
     numbers_array = numbers_string.split(',').map(&:to_i)
+
+    negative_numbers = numbers_array.select { |number| number < 0 }
+
+    unless negative_numbers.empty?
+      raise "Negative numbers not allowed: #{negative_numbers.join(', ')}"
+    end
+
     numbers_array.reduce(0, :+)
   end
 end
