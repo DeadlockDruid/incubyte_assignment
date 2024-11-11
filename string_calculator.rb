@@ -1,5 +1,6 @@
 class StringCalculatorErrors < StandardError; end
 
+
 class StringCalculator
   def add(numbers_string)
     return 0 if numbers_string.empty?
@@ -13,33 +14,28 @@ class StringCalculator
     def parse_numbers(numbers_string)
       delimiter, numbers_string = get_delimiter_and_numbers(numbers_string)
 
-      numbers_array = get_numbers_list(delimiter, numbers_string)
-
+      numbers_array = numbers_string.split(delimiter).map(&:to_i)
       check_for_negative_numbers(numbers_array)
+
       numbers_array.reject { |number| number > 1000 }
     end
 
     def get_delimiter_and_numbers(numbers_string)
-      delimiter = ','
+      default_delimiters = [",", "\\n"]
+      delimiter = Regexp.union(default_delimiters)
 
       if numbers_string.start_with?('//')
         delimiter_part, numbers_string = numbers_string.split("\\n", 2)
 
         if delimiter_part.include?('[')
-          delimiters = delimiter_part.scan(/\[(.*?)\]/).flatten
-          delimiter = Regexp.union(delimiters)
+          custom_delimiters = delimiter_part.scan(/\[(.*?)\]/).flatten
+          delimiter = Regexp.union(default_delimiters + custom_delimiters)
         else
-          delimiter = delimiter_part[2]
+          delimiter = Regexp.union(default_delimiters + [delimiter_part[2]])
         end
       end
 
       [delimiter, numbers_string]
-    end
-
-    def get_numbers_list(delimiter, numbers_string)
-      numbers_string = numbers_string.gsub(delimiter, ',').gsub('\n', ',')
-
-      numbers_string.split(',').map(&:to_i)
     end
 
     def check_for_negative_numbers(numbers_array)
