@@ -23,11 +23,16 @@ class StringCalculator
       delimiter = ','
 
       if numbers_string.start_with?('//')
-        delimiter = numbers_string[2]
-        numbers_string = numbers_string[2..-1]
+        delimiter_part, numbers_string = numbers_string.split("\\n", 2)
+
+        if delimiter_part.include?('[')
+          delimiter = delimiter_part[/\[(.*)\]/, 1]
+        else
+          delimiter = delimiter_part[2]
+        end
       end
 
-      return delimiter, numbers_string
+      [delimiter, numbers_string]
     end
 
     def get_numbers_list(delimiter, numbers_string)
