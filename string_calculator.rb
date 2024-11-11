@@ -26,7 +26,8 @@ class StringCalculator
         delimiter_part, numbers_string = numbers_string.split("\\n", 2)
 
         if delimiter_part.include?('[')
-          delimiter = delimiter_part[/\[(.*)\]/, 1]
+          delimiters = delimiter_part.scan(/\[(.*?)\]/).flatten
+          delimiter = Regexp.union(delimiters)
         else
           delimiter = delimiter_part[2]
         end
